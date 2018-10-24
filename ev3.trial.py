@@ -10,13 +10,15 @@ from ev3dev2.sound import Sound
 sound = Sound()
 
 
-# TODO: Add code here
+#Make us look angry
 leds = Leds()
 leds.set_color("LEFT", "RED")
 leds.set_color("RIGHT", "RED")
 
+#Configure tank movement
 tank = MoveTank(OUTPUT_B, OUTPUT_C)
 
+#See that we are not getting TOO close to the target
 ir = InfraredSensor()
 irDist = ir.value()
 while irDist > 10:
@@ -32,7 +34,7 @@ while irDist > 10:
 
 # drive in a turn for 5 rotations of the outer motor
 # the first two parameters can be unit classes or percentages.
-tank.on_for_rotations(SpeedPercent(100), SpeedPercent(100), 10)
+#tank.on_for_rotations(SpeedPercent(100), SpeedPercent(100), 10)
 
 # # drive in a different turn for 3 seconds
 # tank.on_for_seconds(SpeedPercent(60), SpeedPercent(30), 3)

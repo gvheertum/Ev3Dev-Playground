@@ -7,30 +7,43 @@ from ev3dev2.sensor.lego import TouchSensor, LightSensor, InfraredSensor
 from ev3dev2.led import Leds
 from ev3dev2.sound import Sound
 
-sound = Sound()
 
+import os
+import sys
+import time
+
+def debug_print(*args, **kwargs):
+    '''Print debug messages to stderr.
+
+    This shows up in the output panel in VS Code.
+    '''
+    print(*args, **kwargs, file=sys.stderr)
+
+
+sound = Sound()
 
 #Make us look angry
 leds = Leds()
 leds.set_color("LEFT", "RED")
-leds.set_color("RIGHT", "RED")
+leds.set_color("RIGHT", "AMBER")
 
 #Configure tank movement
-tank = MoveTank(OUTPUT_B, OUTPUT_C)
+#tank = MoveTank(OUTPUT_B, OUTPUT_C)
 
 #See that we are not getting TOO close to the target
-ir = InfraredSensor()
+ir = InfraredSensor(INPUT_2)
 irDist = ir.value()
 while irDist > 10:
-    print(ir.value())
-    sound.speak('dum dum')
-    tank.on_for_rotations(SpeedPercent(-50), SpeedPercent(-50), 3)
+    debug_print("distance: " + str(irDist))
+    sound.speak('Come closer')
     irDist = ir.value()
+    
+sound.speak('Thank you!')
     
 
 #m = LargeMotor(OUTPUT_C)
 #m2 = LargeMotor(OUTPUT_B)
-#m.on_for_rotations(SpeedPercent(75), 5)  
+#m.on_for_rotations(SpeedPercent(75), 5)  ls
 
 # drive in a turn for 5 rotations of the outer motor
 # the first two parameters can be unit classes or percentages.
